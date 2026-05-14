@@ -42,4 +42,20 @@ def parse_log(filename):
             "WARN": ["lento"],
         }
     """
-    pass  # Reemplazar con tu implementación
+    logs_agrupados = {}
+    with open(filename, 'r', encoding='utf-8') as archivo:
+        for linea in archivo:
+            contenido = linea.strip()
+            if not contenido:
+                continue
+            if ':' not in contenido:
+                raise ValueError("invalid log line")
+            nivel, mensaje = contenido.split(':', 1)
+            nivel = nivel.strip()
+            mensaje = mensaje.strip()
+            if nivel not in logs_agrupados:
+                logs_agrupados[nivel] = []
+
+            logs_agrupados[nivel].append(mensaje)
+
+    return logs_agrupados
